@@ -1,0 +1,15 @@
+services:
+  gateway:
+    restart: "no"
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "${WEB_PORT_EXT?Variable not set}:80"
+      - "${DASHBOARD_PORT_EXT?Variable not set}:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - tpii-network
+      
+networks:
+  tpii-network:
+    external: true
