@@ -1,4 +1,10 @@
-# Gayeway
+# Gateway
+
+Generar una secret key _(usa la misma con el users-service)_:
+
+```bash
+openssl rand -hex 32
+```
 
 System gateway config
 
