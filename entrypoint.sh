@@ -33,6 +33,10 @@ http:
                 - sub
           logs:
             level: DEBUG
+    x-api-key:
+      headers:
+        customRequestHeaders:
+          x-api-key: ${X_API_KEY}
 EOF
 
 exec traefik "$@"
