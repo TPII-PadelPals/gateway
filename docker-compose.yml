@@ -1,6 +1,6 @@
 services:
   gateway:
-    image: traefik:v3.3.5
+    image: traefik:v3.4.0
     restart: always
     env_file:
       - .env

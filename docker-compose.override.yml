@@ -1,15 +1,31 @@
 services:
   gateway:
     restart: "no"
-    command: --api.insecure=true --providers.docker
+    entrypoint: ["/etc/traefik/entrypoint.sh"]
+    command: 
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.file.watch=true"
+      - "--experimental.plugins.easy-traefik-rate-limit-jwt.modulename=github.com/louiscavalcante/easy-traefik-rate-limit-jwt"
+      - "--experimental.plugins.easy-traefik-rate-limit-jwt.version=v0.0.5"
     ports:
       - "${WEB_PORT_EXT?Variable not set}:80"
       - "${DASHBOARD_PORT_EXT?Variable not set}:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./entrypoint.sh:/etc/traefik/entrypoint.sh
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
     networks:
       - tpii-network
-      
+    labels:
+      - "traefik.http.middlewares.cors.headers.accesscontrolallowmethods=*"
+      - "traefik.http.middlewares.cors.headers.accesscontrolalloworiginlist=*"
+      - "traefik.http.middlewares.cors.headers.accesscontrolallowheaders=*"
+      - "traefik.http.middlewares.cors.headers.accesscontrolmaxage=100"
+      - "traefik.http.middlewares.cors.headers.addvaryheader=true"
+
 networks:
   tpii-network:
     external: true
