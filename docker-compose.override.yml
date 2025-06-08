@@ -9,14 +9,25 @@ services:
       - "--providers.file.watch=true"
       - "--experimental.plugins.easy-traefik-rate-limit-jwt.modulename=github.com/louiscavalcante/easy-traefik-rate-limit-jwt"
       - "--experimental.plugins.easy-traefik-rate-limit-jwt.version=v0.0.5"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.duckdns.acme.dnschallenge=true"
+      - "--certificatesresolvers.duckdns.acme.dnschallenge.provider=duckdns"
+      - "--certificatesresolvers.duckdns.acme.email=${DUCKDNS_EMAIL?Variable not set}"
+      - "--certificatesresolvers.duckdns.acme.storage=/etc/traefik/acme.json"
+      - "--log.level=INFO"
     ports:
       - "${WEB_PORT_EXT?Variable not set}:80"
       - "${DASHBOARD_PORT_EXT?Variable not set}:8080"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./entrypoint.sh:/etc/traefik/entrypoint.sh
+      - ./acme.json:/etc/traefik/acme.json 
     environment:
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET?Variable not set}
+      - DUCKDNS_TOKEN=${DUCKDNS_TOKEN?Variable not set}
+      - USER_SERVICE_URL=${USER_SERVICE_URL?Variable not set}
+      - BUSINESS_SERVICE_URL=${BUSINESS_SERVICE_URL?Variable not set}
     networks:
       - tpii-network
     labels:
