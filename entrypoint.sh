@@ -45,32 +45,32 @@ http:
     google-service:
       loadBalancer:
         servers:
-          - url: ${USER_SERVICE_URL}/api/v1/google
+          - url: ${USER_SERVICE_URL}
 
     auth-service:
       loadBalancer:
         servers:
-          - url: ${USER_SERVICE_URL}/api/v1/auth
+          - url: ${USER_SERVICE_URL}
 
     users-service:
       loadBalancer:
         servers:
-          - url: ${USER_SERVICE_URL}/api/v1/users
+          - url: ${USER_SERVICE_URL}
 
     businesses-service:
       loadBalancer:
         servers:
-          - url: ${BUSINESS_SERVICE_URL}/api/v1/businesses
+          - url: ${BUSINESS_SERVICE_URL}
 
     padel-courts-service:
       loadBalancer:
         servers:
-          - url: ${BUSINESS_SERVICE_URL}/api/v1/padel-courts
+          - url: ${BUSINESS_SERVICE_URL}
 
     matches-service:
       loadBalancer:
         servers:
-          - url: ${MATCHES_SERVICE_URL}/api/v1/matches
+          - url: ${MATCHES_SERVICE_URL}
 
   routers:
     google-router:
