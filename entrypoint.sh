@@ -67,6 +67,11 @@ http:
         servers:
           - url: ${BUSINESS_SERVICE_URL}/api/v1/padel-courts
 
+    matches-service:
+      loadBalancer:
+        servers:
+          - url: ${MATCHES_SERVICE_URL}/api/v1/matches
+
   routers:
     google-router:
       rule: "PathPrefix(`/api/v1/google`)"
@@ -119,6 +124,18 @@ http:
     padel-courts-router:
       rule: "PathPrefix(`/api/v1/padel-courts`)"
       service: padel-courts-service
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: duckdns
+      middlewares:
+        - cors
+        - my-easy-traefik-rate-limit-jwt
+        - x-api-key
+
+    matches-router:
+      rule: "PathPrefix(`/api/v1/matches`)"
+      service: matches-service
       entryPoints:
         - websecure
       tls:
