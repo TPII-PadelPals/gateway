@@ -4,7 +4,6 @@ services:
     entrypoint: ["/etc/traefik/entrypoint.sh"]
     command: 
       - "--api.insecure=true"
-      - "--providers.docker"
       - "--providers.file.directory=/etc/traefik/dynamic"
       - "--providers.file.watch=true"
       - "--experimental.plugins.easy-traefik-rate-limit-jwt.modulename=github.com/louiscavalcante/easy-traefik-rate-limit-jwt"
@@ -20,7 +19,6 @@ services:
       - "${DASHBOARD_PORT_EXT?Variable not set}:8080"
       - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./entrypoint.sh:/etc/traefik/entrypoint.sh
       - ./acme.json:/etc/traefik/acme.json 
     environment:
@@ -28,6 +26,7 @@ services:
       - DUCKDNS_TOKEN=${DUCKDNS_TOKEN?Variable not set}
       - USER_SERVICE_URL=${USER_SERVICE_URL?Variable not set}
       - BUSINESS_SERVICE_URL=${BUSINESS_SERVICE_URL?Variable not set}
+      - MATCHES_SERVICE_URL=${MATCHES_SERVICE_URL?Variable not set}
     networks:
       - tpii-network
     labels:
