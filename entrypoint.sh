@@ -37,6 +37,16 @@ http:
       headers:
         customRequestHeaders:
           x-api-key: ${X_API_KEY}
+    cors:
+      headers:
+        accessControlAllowMethods:
+          - "*"
+        accessControlAllowOriginList:
+          - "*"
+        accessControlAllowHeaders:
+          - "*"
+        accessControlMaxAge: 100
+        addVaryHeader: true
 EOF
 
 cat <<EOF > /etc/traefik/dynamic/services.yml
@@ -74,7 +84,7 @@ http:
 
   routers:
     google-router:
-      rule: "PathPrefix(`/api/v1/google`)"
+      rule: "PathPrefix(\`/api/v1/google\`)"
       service: google-service
       entryPoints:
         - websecure
@@ -86,7 +96,7 @@ http:
         - x-api-key
 
     auth-router:
-      rule: "PathPrefix(`/api/v1/auth`)"
+      rule: "PathPrefix(\`/api/v1/auth\`)"
       service: auth-service
       entryPoints:
         - websecure
@@ -98,7 +108,7 @@ http:
         - x-api-key
 
     users-router:
-      rule: "PathPrefix(`/api/v1/users`)"
+      rule: "PathPrefix(\`/api/v1/users\`)"
       service: users-service
       entryPoints:
         - websecure
@@ -110,7 +120,7 @@ http:
         - x-api-key
 
     businesses-router:
-      rule: "PathPrefix(`/api/v1/businesses`)"
+      rule: "PathPrefix(\`/api/v1/businesses\`)"
       service: businesses-service
       entryPoints:
         - websecure
@@ -122,7 +132,7 @@ http:
         - x-api-key
 
     padel-courts-router:
-      rule: "PathPrefix(`/api/v1/padel-courts`)"
+      rule: "PathPrefix(\`/api/v1/padel-courts\`)"
       service: padel-courts-service
       entryPoints:
         - websecure
@@ -134,7 +144,7 @@ http:
         - x-api-key
 
     matches-router:
-      rule: "PathPrefix(`/api/v1/matches`)"
+      rule: "PathPrefix(\`/api/v1/matches\`)"
       service: matches-service
       entryPoints:
         - websecure

@@ -1,0 +1,105 @@
+http:
+  services:
+    google-service:
+      loadBalancer:
+        servers:
+          - url: http://user-service:8000
+
+    auth-service:
+      loadBalancer:
+        servers:
+          - url: http://user-service:8000
+
+    users-service:
+      loadBalancer:
+        servers:
+          - url: http://user-service:8000
+
+    businesses-service:
+      loadBalancer:
+        servers:
+          - url: http://business-service:8002
+
+    padel-courts-service:
+      loadBalancer:
+        servers:
+          - url: http://business-service:8002
+
+    matches-service:
+      loadBalancer:
+        servers:
+          - url: http://matches-service:8003
+
+  routers:
+    google-router:
+      rule: "PathPrefix(`/api/v1/google`)"
+      service: google-service
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: duckdns
+      middlewares:
+        - cors
+        - my-easy-traefik-rate-limit-jwt
+        - x-api-key
+
+    auth-router:
+      rule: "PathPrefix(`/api/v1/auth`)"
+      service: auth-service
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: duckdns
+      middlewares:
+        - cors
+        - my-easy-traefik-rate-limit-jwt
+        - x-api-key
+
+    users-router:
+      rule: "PathPrefix(`/api/v1/users`)"
+      service: users-service
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: duckdns
+      middlewares:
+        - cors
+        - my-easy-traefik-rate-limit-jwt
+        - x-api-key
+
+    businesses-router:
+      rule: "PathPrefix(`/api/v1/businesses`)"
+      service: businesses-service
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: duckdns
+      middlewares:
+        - cors
+        - my-easy-traefik-rate-limit-jwt
+        - x-api-key
+
+    padel-courts-router:
+      rule: "PathPrefix(`/api/v1/padel-courts`)"
+      service: padel-courts-service
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: duckdns
+      middlewares:
+        - cors
+        - my-easy-traefik-rate-limit-jwt
+        - x-api-key
+
+    matches-router:
+      rule: "PathPrefix(`/api/v1/matches`)"
+      service: matches-service
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: duckdns
+      middlewares:
+        - cors
+        - my-easy-traefik-rate-limit-jwt
+        - x-api-key
+

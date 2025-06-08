@@ -13,7 +13,6 @@ services:
       - "--certificatesresolvers.duckdns.acme.dnschallenge.provider=duckdns"
       - "--certificatesresolvers.duckdns.acme.email=${DUCKDNS_EMAIL?Variable not set}"
       - "--certificatesresolvers.duckdns.acme.storage=/etc/traefik/acme.json"
-      - "--certificatesresolvers.duckdns.acme.dnschallenge.envFile=/etc/traefik/duckdns.ini"
       - "--log.level=INFO"
     ports:
       - "${WEB_PORT_EXT?Variable not set}:80"
@@ -23,7 +22,6 @@ services:
       - ./entrypoint.sh:/etc/traefik/entrypoint.sh
       - ./acme.json:/etc/traefik/acme.json
       - ./dynamic:/etc/traefik/dynamic
-      - ./duckdns.ini:/etc/traefik/duckdns.ini
     environment:
       - JWT_SECRET=${JWT_SECRET?Variable not set}
       - DUCKDNS_TOKEN=${DUCKDNS_TOKEN?Variable not set}
@@ -32,13 +30,7 @@ services:
       - MATCHES_SERVICE_URL=${MATCHES_SERVICE_URL?Variable not set}
     networks:
       - tpii-network
-    labels:
-      - "traefik.http.middlewares.cors.headers.accesscontrolallowmethods=*"
-      - "traefik.http.middlewares.cors.headers.accesscontrolalloworiginlist=*"
-      - "traefik.http.middlewares.cors.headers.accesscontrolallowheaders=*"
-      - "traefik.http.middlewares.cors.headers.accesscontrolmaxage=100"
-      - "traefik.http.middlewares.cors.headers.addvaryheader=true"
-
+      
 networks:
   tpii-network:
     external: true
