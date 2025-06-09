@@ -12,7 +12,7 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.duckdns.acme.httpchallenge.entrypoint=web"
       - "--certificatesresolvers.duckdns.acme.email=${DUCKDNS_EMAIL?Variable not set}"
-      - "--certificatesresolvers.duckdns.acme.storage=/etc/traefik/acme.json"
+      - "--certificatesresolvers.duckdns.acme.storage=/etc/certs/acme.json"
       - "--log.level=INFO"
     ports:
       - "${WEB_PORT_EXT?Variable not set}:80"
@@ -20,7 +20,7 @@ services:
       - "443:443"
     volumes:
       - ./entrypoint.sh:/etc/traefik/entrypoint.sh
-      - ./acme.json:/etc/traefik/acme.json
+      - ./certs:/etc/certs
       - ./dynamic:/etc/traefik/dynamic
     environment:
       - JWT_SECRET=${JWT_SECRET?Variable not set}
