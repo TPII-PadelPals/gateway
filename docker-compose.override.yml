@@ -9,10 +9,10 @@ services:
       - "--experimental.plugins.easy-traefik-rate-limit-jwt.modulename=github.com/louiscavalcante/easy-traefik-rate-limit-jwt"
       - "--experimental.plugins.easy-traefik-rate-limit-jwt.version=v0.0.5"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.duckdns.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.duckdns.acme.dnschallenge=true"
+      - "--certificatesresolvers.duckdns.acme.dnschallenge.provider=duckdns"
       - "--certificatesresolvers.duckdns.acme.email=${DUCKDNS_EMAIL?Variable not set}"
-      - "--certificatesresolvers.duckdns.acme.storage=/etc/certs/acme.json"
+      - "--certificatesresolvers.duckdns.acme.storage=/etc/traefik/acme.json"
       - "--log.level=INFO"
     ports:
       - "${WEB_PORT_EXT?Variable not set}:80"
@@ -20,7 +20,7 @@ services:
       - "443:443"
     volumes:
       - ./entrypoint.sh:/etc/traefik/entrypoint.sh
-      - ./certs:/etc/certs
+      - ./acme.json:/etc/traefik/acme.json
       - ./dynamic:/etc/traefik/dynamic
     environment:
       - JWT_SECRET=${JWT_SECRET?Variable not set}
