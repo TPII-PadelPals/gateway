@@ -9,6 +9,7 @@ services:
       - "--experimental.plugins.easy-traefik-rate-limit-jwt.modulename=github.com/louiscavalcante/easy-traefik-rate-limit-jwt"
       - "--experimental.plugins.easy-traefik-rate-limit-jwt.version=v0.0.5"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.duckdns.acme.dnschallenge=true"
       - "--certificatesresolvers.duckdns.acme.dnschallenge.provider=duckdns"
       - "--certificatesresolvers.duckdns.acme.email=${DUCKDNS_EMAIL?Variable not set}"
